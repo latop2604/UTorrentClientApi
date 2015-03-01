@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>UTorrentClientApi</id>
+        <version>1.0.0.0</version>
+        <title>UTorrentClient Api</title>
+        <authors>latop2604</authors>
+        <licenseUrl>https://utorrentclientapi.codeplex.com/license</licenseUrl>
+        <projectUrl>https://github.com/latop2604/UTorrentClientApi</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.</description>
+        <summary>UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.</summary>
+        <releaseNotes>Add get and set settings action</releaseNotes>
+        <tags>µTorrent uTorrent Torrent</tags>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="6.0.8" />
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Configuration" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Configuration" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Web" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="UTorrent.Api\bin\Release\UTorrent.Api.Data.dll" target="lib\net\UTorrent.Api.Data.dll" />
+        <file src="UTorrent.Api\bin\Release\UTorrent.Api.Data.xml" target="lib\net\UTorrent.Api.Data.xml" />
+        <file src="UTorrent.Api\bin\Release\UTorrent.Api.dll" target="lib\net\UTorrent.Api.dll" />
+        <file src="UTorrent.Api\bin\Release\UTorrent.Api.xml" target="lib\net\UTorrent.Api.xml" />
+    </files>
+</package>
