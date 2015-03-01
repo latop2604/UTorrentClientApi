@@ -256,16 +256,25 @@ namespace UTorrent.Api
                 setting.Key = jToken[0].Value<string>();
                 setting.Type = (SettingType)jToken[1].Value<int>();
 
+                string value = jToken[2].Value<string>();
                 switch (setting.Type)
                 {
                     case SettingType.Integer:
-                        setting.Value = jToken[2].Value<int>();
+                        int i;
+                        if (int.TryParse(value, out i))
+                        {
+                            setting.Value = i;
+                        }
+                        else
+                        {
+                            setting.Value = value;
+                        }
                         break;
                     case SettingType.Boolean:
-                        setting.Value = jToken[2].Value<string>() == "true";
+                        setting.Value = value == "true";
                         break;
                     case SettingType.String:
-                        setting.Value = jToken[2].Value<string>();
+                        setting.Value = value;
                         break;
                 }
 
