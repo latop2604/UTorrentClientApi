@@ -278,11 +278,11 @@ namespace UTorrent.Api
                         break;
                 }
 
-				if (jToken.Count() > 3)
-				{
-					var accessJtoken = jToken[3].SelectToken("access");
-					setting.Access = accessJtoken.Value<string>();
-				}
+                if (jToken.Count() > 3)
+                {
+                    var accessJtoken = jToken[3].SelectToken("access");
+                    setting.Access = accessJtoken.Value<string>();
+                }
 
                 yield return setting;
             }
