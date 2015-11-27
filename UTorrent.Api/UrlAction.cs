@@ -35,6 +35,8 @@ namespace UTorrent.Api
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction RemoveDataTorrent = new UrlAction("REMOVEDATATORRENT");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
+        public static readonly UrlAction RemoveTorrent = new UrlAction("REMOVETORRENT");
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction SetPriority       = new UrlAction("SETPRIO");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction AddUrl            = new UrlAction("ADD-URL");
