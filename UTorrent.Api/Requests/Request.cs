@@ -29,6 +29,7 @@ namespace UTorrent.Api
             yield return UrlAction.Remove;
             yield return UrlAction.RemoveData;
             yield return UrlAction.RemoveDataTorrent;
+            yield return UrlAction.RemoveTorrent;
             yield return UrlAction.SetPriority;
             yield return UrlAction.AddUrl;
             yield return UrlAction.AddFile;

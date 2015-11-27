@@ -341,7 +341,7 @@ namespace UTorrent.Api
         }
 
         /// <summary>
-        /// Delete the torrent
+        /// Deletes the torrent and the data
         /// </summary>
         /// <param name="hash">The torrent hash</param>
         /// <returns></returns>
@@ -352,7 +352,7 @@ namespace UTorrent.Api
         }
 
         /// <summary>
-        /// Delete the torrent async
+        /// Deletes the torrent and removes the data async
         /// </summary>
         /// <param name="hash">The torrent hash</param>
         /// <returns></returns>
@@ -362,7 +362,7 @@ namespace UTorrent.Api
         }
 
         /// <summary>
-        /// Delete torrent list
+        /// Deletes torrent list and removes the data
         /// </summary>
         /// <param name="hashs">Torrents hash</param>
         /// <returns></returns>
@@ -372,7 +372,7 @@ namespace UTorrent.Api
         }
 
         /// <summary>
-        /// Delete torrent list async
+        /// Deletes torrent list and removes the data async
         /// </summary>
         /// <param name="hashs">Torrents hash</param>
         /// <returns></returns>
@@ -420,6 +420,114 @@ namespace UTorrent.Api
         public Task<Response> RecheckTorrentAsync(IEnumerable<string> hashs)
         {
             return Task.Factory.StartNew(() => RecheckTorrent(hashs));
+        }
+
+        /// <summary>
+        /// Removes (but does not delete) the torrent from the client
+        /// </summary>
+        public Response Remove(string hash)
+        {
+            Contract.Requires(hash != null);
+
+            return ActionTorrent(UrlAction.Remove, hash);
+        }
+
+        /// <summary>
+        /// Removes (but does not delete) the torrent from the client
+        /// </summary>
+        public Task<Response> RemoveAsync(string hash)
+        {
+            return Task.Factory.StartNew(() => Remove(hash));
+        }
+
+        /// <summary>
+        /// Removes (but does not delete) the torrent from the client
+        /// </summary>
+        public Response Remove(IEnumerable<string> hashs)
+        {
+            Contract.Requires(hashs != null);
+
+            return ActionTorrent(UrlAction.Remove, hashs);
+        }
+
+        /// <summary>
+        /// Removes (but does not delete) the torrent from the client
+        /// </summary>
+        public Task<Response> RemoveAsync(IEnumerable<string> hashs)
+        {
+            return Task.Factory.StartNew(() => Remove(hashs));
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client (but does not delete the torrent file) and deletes the downloaded data
+        /// </summary>
+        public Response RemoveData(string hash)
+        {
+            Contract.Requires(hash != null);
+
+            return ActionTorrent(UrlAction.RemoveData, hash);
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client (but does not delete the torrent file) and deletes the downloaded data
+        /// </summary>
+        public Task<Response> RemoveDataAsync(string hash)
+        {
+            return Task.Factory.StartNew(() => RemoveData(hash));
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client (but does not delete the torrent file) and deletes the downloaded data
+        /// </summary>
+        public Response RemoveData(IEnumerable<string> hashs)
+        {
+            Contract.Requires(hashs != null);
+
+            return ActionTorrent(UrlAction.RemoveData, hashs);
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client (but does not delete the torrent file) and deletes the downloaded data
+        /// </summary>
+        public Task<Response> RemoveDataAsync(IEnumerable<string> hashs)
+        {
+            return Task.Factory.StartNew(() => RemoveData(hashs));
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client and deletes torrent file, yet perserves the downloaded file(s)
+        /// </summary>
+        public Response RemoveTorrent(string hash)
+        {
+            Contract.Requires(hash != null);
+
+            return ActionTorrent(UrlAction.RemoveTorrent, hash);
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client and deletes torrent file, yet perserves the downloaded file(s) async
+        /// </summary>
+        public Task<Response> RemoveTorrentAsync(string hash)
+        {
+            return Task.Factory.StartNew(() => RemoveTorrent(hash));
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client and deletes torrent file, yet perserves the downloaded file(s)
+        /// </summary>
+        public Response RemoveTorrent(IEnumerable<string> hashs)
+        {
+            Contract.Requires(hashs != null);
+
+            return ActionTorrent(UrlAction.RemoveTorrent, hashs);
+        }
+
+        /// <summary>
+        /// Removes the torrent from the client and deletes torrent file, yet perserves the downloaded file(s) async
+        /// </summary>
+        public Task<Response> RemoveTorrentAsync(IEnumerable<string> hashs)
+        {
+            return Task.Factory.StartNew(() => RemoveTorrent(hashs));
         }
 
         private Response ActionTorrent(UrlAction urlAction, string hash)
