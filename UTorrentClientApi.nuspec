@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>UTorrentClientApi</id>
-        <version>1.0.0.2</version>
+        <version>1.0.0.3</version>
         <title>UTorrentClient Api</title>
         <authors>latop2604</authors>
         <licenseUrl>https://utorrentclientapi.codeplex.com/license</licenseUrl>
@@ -10,15 +10,13 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.</description>
         <summary>UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.</summary>
-        <releaseNotes>Add get and set settings action
-Fix IndexOutOfRangeException</releaseNotes>
+        <releaseNotes>Added remaining remove torrent commands to UTorrentClient</releaseNotes>
         <tags>µTorrent uTorrent Torrent</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="6.0.8" />
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System" targetFramework="" />
-            <frameworkAssembly assemblyName="System.Configuration" targetFramework="" />
             <frameworkAssembly assemblyName="System.Configuration" targetFramework="" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="" />
             <frameworkAssembly assemblyName="System.Web" targetFramework="" />
