@@ -1,6 +1,9 @@
 # UTorrentClientApi
 UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/l60yp16o0c9tma75?svg=true)](https://ci.appveyor.com/project/latop2604/utorrentclientapi)
+
+
 ## Main features
 * CRUD operations
 * Add torrent in subpath
