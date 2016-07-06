@@ -223,16 +223,16 @@ namespace UTorrent.Api.File
             var torrent = new TorrentInfo();
 
             string queryString = uri.Query.Substring(1);
-            var queryParams = System.Web.HttpUtility.ParseQueryString(queryString);
+            var queryParams = ParseQueryString((queryString.Length > 0 && queryString[0] == '?') ? queryString.Substring(1) : queryString);
 
-            List<string> annouces = new List<string>();
-            foreach (string key in queryParams.AllKeys)
+            List <string> annouces = new List<string>();
+            foreach (string key in queryParams.Keys)
             {
                 if (key == "dn")
                 {
                     torrent.Name = queryParams[key];
                 }
-                if (key == "xt")
+                else if (key == "xt")
                 {
                     string[] urn = queryParams[key].Split(':');
                     if (urn.Length == 3)
@@ -240,11 +240,11 @@ namespace UTorrent.Api.File
                         torrent.Hash = urn[2];
                     }
                 }
-                if (key == "tr")
+                else if (key == "tr")
                 {
                     annouces.Add(queryParams[key]);
                 }
-                if (key == "xl")
+                else if (key == "xl")
                 {
                     long val;
                     if (long.TryParse(queryParams[key], out val))
@@ -256,6 +256,65 @@ namespace UTorrent.Api.File
 
 
             return torrent;
+        }
+
+        private static Dictionary<string, string> ParseQueryString(string s)
+        {
+            var result = new Dictionary<string, string>();
+
+            int l = (s != null) ? s.Length : 0;
+            int i = 0;
+
+            while (i < l)
+            {
+                // find next & while noting first = on the way (and if there are more)
+
+                int si = i;
+                int ti = -1;
+
+                while (i < l)
+                {
+                    char ch = s[i];
+
+                    if (ch == '=')
+                    {
+                        if (ti < 0)
+                            ti = i;
+                    }
+                    else if (ch == '&')
+                    {
+                        break;
+                    }
+
+                    i++;
+                }
+
+                // extract the name / value pair
+
+                String name = null;
+                String value = null;
+
+                if (ti >= 0)
+                {
+                    name = s.Substring(si, ti - si);
+                    value = s.Substring(ti + 1, i - ti - 1);
+                }
+                else
+                {
+                    value = s.Substring(si, i - si);
+                }
+
+                // add name / value pair to the collection
+                result.Add(name, value);
+
+                // trailing '&'
+
+                if (i == l - 1 && s[i] == '&')
+                    result.Add(null, String.Empty);
+
+                i++;
+            }
+            return result;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace UTorrent.Api
                 if (match.Success)
                 {
                     string hash = match.Groups[1].Value;
-                    var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).AsParallel().FirstOrDefault(item => string.Equals(item.Hash, hash, StringComparison.OrdinalIgnoreCase));
+                    var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).FirstOrDefault(item => string.Equals(item.Hash, hash, StringComparison.OrdinalIgnoreCase));
                     return torrent;
                 }
             }

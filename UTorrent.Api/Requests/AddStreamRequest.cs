@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using UTorrent.Api.File;
@@ -89,7 +90,6 @@ namespace UTorrent.Api
 
                 wr.ContentType = "multipart/form-data; boundary=" + boundary;
                 wr.Method = "POST";
-                wr.KeepAlive = true;
 
                 using (var ms = new Tools.ChunkedMemoryStream())
                 {
@@ -113,7 +113,11 @@ namespace UTorrent.Api
                     byte[] trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
                     ms.Write(trailer, 0, trailer.Length);
 
+#if !PORTABLE
                     wr.ContentLength = ms.Length;
+#else
+                    wr.Headers["Content-Length"] = ms.Length.ToString(CultureInfo.InvariantCulture);
+#endif
 
                     // Debug
                     //ms.Position = 0;
@@ -122,7 +126,11 @@ namespace UTorrent.Api
 
 
 
+#if !PORTABLE
                     System.IO.Stream rs = wr.GetRequestStream();
+#else
+                    System.IO.Stream rs = wr.GetRequestStreamAsync().Result;
+#endif
                     if (rs != null)
                     {
                         using (rs)
@@ -133,7 +141,7 @@ namespace UTorrent.Api
                                 rs.Write(buffer, 0, bytesRead);
                             }
 
-                            rs.Close();
+                            rs.Flush();
                         }
                     }
                 }
@@ -164,7 +172,7 @@ namespace UTorrent.Api
                 return null;
 
             string infoName = ClearString(_torrentInfo.Name);
-            var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).AsParallel().FirstOrDefault(item => ClearString(item.Name) == infoName);
+            var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).FirstOrDefault(item => ClearString(item.Name) == infoName);
             return torrent;
         }
 

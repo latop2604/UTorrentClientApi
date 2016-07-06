@@ -7,24 +7,21 @@ namespace UTorrent.Api.UnitTest
     public class UrlActionUnitTest
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestUrlActionWithNullCtorParameter()
         {
-            UrlAction.Create(null);
+            Assert.ThrowsException<ArgumentNullException>(() => UrlAction.Create(null));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TestUrlActionWithEmptyCtorParameter()
         {
-            UrlAction.Create("");
+            Assert.ThrowsException<ArgumentException>(() => UrlAction.Create(""));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void TestUrlActionWithWhiteSpaceCtorParameter()
         {
-            UrlAction.Create(" ");
+            Assert.ThrowsException<ArgumentException>(() => UrlAction.Create(" "));
         }
 
         [TestMethod]

@@ -58,31 +58,27 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_1()
         {
-            BencodeDecoder.Decode("i45");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("i45"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_2()
         {
-            BencodeDecoder.Decode("45");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("45"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_3()
         {
-            BencodeDecoder.Decode("45e");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("45e"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_4()
         {
-            BencodeDecoder.Decode("ie");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("ie"));
         }
 
         [TestMethod]
@@ -98,24 +94,21 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_1()
         {
-            BencodeDecoder.Decode(":aze");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode(":aze"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_2()
         {
-            BencodeDecoder.Decode("5:aze");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("5:aze"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_3()
         {
-            BencodeDecoder.Decode("5:");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("5:"));
         }
 
         [TestMethod]
@@ -176,7 +169,7 @@ namespace UTorrent.Api.UnitTest
 
             Assert.AreEqual("123", bint.ToString());
             Assert.AreEqual("i123e", bint.ToBencodedString());
-            
+
             BInteger bint2 = 123;
             BInteger bint3 = 12;
             Assert.AreEqual(bint.GetHashCode(), bint2.GetHashCode());
