@@ -634,7 +634,9 @@ namespace UTorrent.Api.File.Bencoding
     /// <summary>
     /// A bencoding exception.
     /// </summary>
+#if !PORTABLE
     [Serializable]
+#endif
     public class BencodingException : FormatException
     {
         /// <summary>
@@ -655,6 +657,8 @@ namespace UTorrent.Api.File.Bencoding
         /// <param name="inner">The inner exception.</param>
         public BencodingException(string message, Exception inner) : base(message, inner) { }
 
+#if !PORTABLE
         protected BencodingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+#endif
     }
 }

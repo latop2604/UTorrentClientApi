@@ -10,12 +10,15 @@ namespace UTorrent.Api.UnitTest
     [TestClass]
     public class UTorrentClientUnitTest
     {
+#if !PORTABLE
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "UTORRENT.LOGIN and UTORRENT.PASSWORD configuration key not found.")]
         public void TestClientConfiguration()
         {
-            new UTorrentClient();
+            var exception = Assert.ThrowsException<InvalidOperationException>(() => new UTorrentClient());
+            Assert.IsNotNull(exception);
+            Assert.AreEqual("UTORRENT.LOGIN and UTORRENT.PASSWORD configuration key not found.", exception.Message);
         }
+#endif
 
         [TestMethod]
         public void TestGetToken()
@@ -113,7 +116,7 @@ namespace UTorrent.Api.UnitTest
             catch (InvalidCredentialException)
             {
                 Assert.Inconclusive("Invalid credential");
-            } 
+            }
         }
 
         [TestMethod]
@@ -165,20 +168,18 @@ namespace UTorrent.Api.UnitTest
             Assert.AreNotEqual(torrent.Files.Count, 0);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
         public void TestGetFilesWithNullHash()
         {
             UTorrentClient client = new UTorrentClient("admin", "password");
-            client.GetFiles(null);
+            Assert.ThrowsException<ArgumentNullException>(() => client.GetFiles(null));
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
         public void TestGetFilesWithNullHashAsync()
         {
             UTorrentClient client = new UTorrentClient("admin", "password");
-            client.GetFilesAsync(null);
+            Assert.ThrowsException<ArgumentNullException>(() => client.GetFilesAsync(null));
         }
 
         [TestMethod]
@@ -260,28 +261,25 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestConsolidateTorrentWithNullResponseParameter()
         {
-            UTorrentClient.ConsolidateTorrent(null, string.Empty);
+            Assert.ThrowsException<ArgumentNullException>(() => UTorrentClient.ConsolidateTorrent(null, string.Empty));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestConsolidateTorrentWithNullHashParameter()
         {
             BaseResponse response = new Response();
             response.Result = new Result(null);
-            UTorrentClient.ConsolidateTorrent(response, null);
+            Assert.ThrowsException<ArgumentNullException>(() => UTorrentClient.ConsolidateTorrent(response, null));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestConsolidateTorrentWithNullResponseResultParameter()
         {
             BaseResponse response = new Response();
             response.Result = null;
-            UTorrentClient.ConsolidateTorrent(response, string.Empty);
+            Assert.ThrowsException<ArgumentNullException>(() => UTorrentClient.ConsolidateTorrent(response, string.Empty));
         }
 
         [TestMethod]
@@ -293,11 +291,10 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestProcessRequestWithNullParameter()
         {
             UTorrentClient client = new UTorrentClient("admin", "password");
-            client.ProcessRequest<Response>(null);
+            Assert.ThrowsException<ArgumentNullException>(() => client.ProcessRequest<Response>(null));
         }
 
         [TestMethod]
@@ -321,6 +318,12 @@ namespace UTorrent.Api.UnitTest
                     Assert.IsNotNull(deleteResponse.Result);
                     Assert.IsNull(deleteResponse.Result.Error);
                 }
+            }
+            catch (AggregateException ex)
+            {
+                if (ex.InnerException is ServerUnavailableException || ex.InnerException is InvalidCredentialException)
+                    Assert.Inconclusive("Serveur unavailable");
+                throw;
             }
             catch (ServerUnavailableException)
             {

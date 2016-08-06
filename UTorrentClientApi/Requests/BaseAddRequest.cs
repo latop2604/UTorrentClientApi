@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Net;
 using System.Text;
-using System.Web;
 
 using UTorrent.Api.Data;
 
@@ -34,7 +34,12 @@ namespace UTorrent.Api
                 throw new ArgumentNullException("sb");
 
             if (TorrentPath != null)
-                sb.Append("&path=").Append(HttpUtility.UrlEncode(TorrentPath));
+#if NET40
+                sb.Append("&path=").Append(System.Web.HttpUtility.UrlEncode(TorrentPath));
+#else
+
+                sb.Append("&path=").Append(WebUtility.UrlEncode(TorrentPath));
+#endif
         }
 
         protected abstract Torrent FindAddedTorrent(T result);

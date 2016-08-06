@@ -9,10 +9,9 @@ namespace UTorrent.Api.UnitTest
     public class BinaryBencodingUnitTest
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestDecodeNullString()
         {
-            BinaryBencoding.Decode(bencodedValue: null);
+            Assert.ThrowsException<ArgumentNullException>(() => BinaryBencoding.Decode(bencodedValue: null));
         }
         [TestMethod]
         public void TestDecodeEmptyString()
@@ -23,10 +22,9 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestDecodeNullStream()
         {
-            BinaryBencoding.Decode(input: null);
+            Assert.ThrowsException<ArgumentNullException>(() => BinaryBencoding.Decode(input: null));
         }
 
         [TestMethod]
@@ -39,10 +37,9 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBElement_1()
         {
-            BinaryBencoding.Decode("k");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("k"));
         }
 
         [TestMethod]
@@ -58,31 +55,27 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_1()
         {
-            BinaryBencoding.Decode("i45");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("i45"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_2()
         {
-            BinaryBencoding.Decode("45");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("45"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_3()
         {
-            BinaryBencoding.Decode("45e");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("45e"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBIteger_4()
         {
-            BinaryBencoding.Decode("ie");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("ie"));
         }
 
         [TestMethod]
@@ -98,24 +91,21 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_1()
         {
-            BinaryBencoding.Decode(":aze");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode(":aze"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_2()
         {
-            BinaryBencoding.Decode("5:aze");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("5:aze"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBString_3()
         {
-            BinaryBencoding.Decode("5:");
+            Assert.ThrowsException<BencodingException>(() => BinaryBencoding.Decode("5:"));
         }
 
         [TestMethod]
