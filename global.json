@@ -1,5 +1,6 @@
 {
-    "projects": ["."],
+    "projects": ["UTorrentClientApi"],
+    "tests": ["UTorrent.Api.UnitTest"],
     "sdk": {
         "version": "1.0.0-preview2-003121"
     }

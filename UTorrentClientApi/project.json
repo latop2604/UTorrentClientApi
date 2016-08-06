@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.1-*",
+  "version": "1.1.0-*",
   "authors": [ "latop2604" ],
   "title": "UTorrentClient Api",
   "description": "UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.",
@@ -19,7 +19,6 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
-    "UTorrent.Api.Data": "1.0.1-*",
     "Newtonsoft.Json": "9.0.1"
   },
 
@@ -30,7 +29,7 @@
           "PORTABLE"
         ]
       },
-      "imports": "dnxcore50",
+      "imports": "netcore50",
       "dependencies": {
         "System.Diagnostics.Contracts": "4.0.1",
         "System.Net.Requests": "4.0.11",
@@ -46,6 +45,12 @@
     "NET45": {
       "frameworkAssemblies": {
         "System.Configuration": ""
+      }
+    },
+    "NET40": {
+      "frameworkAssemblies": {
+        "System.Configuration": "",
+        "System.Web": ""
       }
     }
   }

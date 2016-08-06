@@ -34,7 +34,12 @@ namespace UTorrent.Api
                 throw new ArgumentNullException("sb");
 
             if (TorrentPath != null)
+#if NET40
+                sb.Append("&path=").Append(System.Web.HttpUtility.UrlEncode(TorrentPath));
+#else
+
                 sb.Append("&path=").Append(WebUtility.UrlEncode(TorrentPath));
+#endif
         }
 
         protected abstract Torrent FindAddedTorrent(T result);
