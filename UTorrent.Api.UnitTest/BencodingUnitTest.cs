@@ -9,10 +9,9 @@ namespace UTorrent.Api.UnitTest
     public class BencodingUnitTest
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestDecodeNullString()
         {
-            BencodeDecoder.Decode(bencodedValue: null);
+            Assert.ThrowsException<ArgumentNullException>(() => BencodeDecoder.Decode(bencodedValue: null));
         }
         [TestMethod]
         public void TestDecodeEmptyString()
@@ -23,10 +22,9 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestDecodeNullStream()
         {
-            BencodeDecoder.Decode(input: null);
+            Assert.ThrowsException<ArgumentNullException>(() => BencodeDecoder.Decode(input: null));
         }
 
         [TestMethod]
@@ -39,10 +37,9 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(BencodingException))]
         public void TestDecodeInvalidBElement_1()
         {
-            BencodeDecoder.Decode("k");
+            Assert.ThrowsException<BencodingException>(() => BencodeDecoder.Decode("k"));
         }
 
         [TestMethod]

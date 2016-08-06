@@ -12,10 +12,11 @@ namespace UTorrent.Api.UnitTest
     {
 #if !PORTABLE
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException), "UTORRENT.LOGIN and UTORRENT.PASSWORD configuration key not found.")]
         public void TestClientConfiguration()
         {
-            new UTorrentClient();
+            var exception = Assert.ThrowsException<InvalidOperationException>(() => new UTorrentClient());
+            Assert.IsNotNull(exception);
+            Assert.AreEqual("UTORRENT.LOGIN and UTORRENT.PASSWORD configuration key not found.", exception.Message);
         }
 #endif
 
