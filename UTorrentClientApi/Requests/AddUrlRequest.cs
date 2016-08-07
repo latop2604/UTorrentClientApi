@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UTorrent.Api.File;
+using UTorrent.Api.Tools;
 
 namespace UTorrent.Api
 {
@@ -80,11 +81,27 @@ namespace UTorrent.Api
 
             if (InputUrl != null && string.Equals(InputUrl.Scheme, "magnet", StringComparison.OrdinalIgnoreCase))
             {
+                //BTIH
                 Regex reg = new Regex("BTIH:([A-F0-9]{40})");
-                Match match = reg.Match(InputUrl.ToString().ToUpperInvariant());
+                var url = InputUrl.ToString().ToUpperInvariant();
+                Match match = reg.Match(url);
                 if (match.Success)
                 {
                     string hash = match.Groups[1].Value;
+                    var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).FirstOrDefault(item => string.Equals(item.Hash, hash, StringComparison.OrdinalIgnoreCase));
+                    return torrent;
+                }
+                else
+                {
+                    // Base 32 not raw hash
+                    reg = new Regex("BTIH:([A-Z0-9]{32})");
+                    url = InputUrl.ToString().ToUpperInvariant();
+                    match = reg.Match(url);
+
+                    if (!match.Success) return null;
+
+                    var data = Base32Helper.ToBytes(match.Groups[1].Value);
+                    string hash = BitConverter.ToString(data).Replace("-", string.Empty);
                     var torrent = result.Result.Torrents.OrderByDescending(t => t.AddedDate).FirstOrDefault(item => string.Equals(item.Hash, hash, StringComparison.OrdinalIgnoreCase));
                     return torrent;
                 }

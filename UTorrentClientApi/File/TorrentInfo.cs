@@ -304,8 +304,11 @@ namespace UTorrent.Api.File
                     value = s.Substring(si, i - si);
                 }
 
-                // add name / value pair to the collection
-                result.Add(name, value);
+                if (result.ContainsKey(name))
+                {
+                    // add name / value pair to the collection
+                    result.Add(name, value);
+                }
 
                 // trailing '&'
 
