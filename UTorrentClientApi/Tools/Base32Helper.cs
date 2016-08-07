@@ -4,6 +4,7 @@ namespace UTorrent.Api.Tools
 {
     public sealed class Base32Helper
     {
+        // http://stackoverflow.com/a/7135008
         public static byte[] ToBytes(string input)
         {
             if (string.IsNullOrEmpty(input))
