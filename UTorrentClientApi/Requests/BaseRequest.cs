@@ -253,11 +253,11 @@ namespace UTorrent.Api
 
 #if !PORTABLE
             using (var response = wr.GetResponse())
-            using (var stream = response.GetResponseStream())
 #else
-            using(var stream = wr.GetRequestStreamAsync().Result)
+            using (var response = wr.GetResponseAsync().Result)
 #endif
-            {
+            using (var stream = response.GetResponseStream())
+            { 
                 if (stream == null)
                     throw new InvalidOperationException("Response stream is null");
 
