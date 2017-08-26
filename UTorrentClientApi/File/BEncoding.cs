@@ -38,7 +38,7 @@ namespace UTorrent.Api.File.Bencoding
         public static IBElement[] Decode(System.IO.Stream input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
 
             if (input.CanRead == false)
                 throw new InvalidOperationException("Input stream must be seekable");
@@ -57,7 +57,7 @@ namespace UTorrent.Api.File.Bencoding
         public static IBElement[] Decode(string bencodedValue)
         {
             if (bencodedValue == null)
-                throw new ArgumentNullException("bencodedValue");
+                throw new ArgumentNullException(nameof(bencodedValue));
 
             int index = 0;
             try
@@ -517,10 +517,7 @@ namespace UTorrent.Api.File.Bencoding
 
             foreach (IBElement element in this)
             {
-                if (element != null)
-                {
-                    element.ToBencodedString(builder);
-                }
+                element?.ToBencodedString(builder);
             }
 
             return builder.Append("e");
@@ -620,14 +617,8 @@ namespace UTorrent.Api.File.Bencoding
         /// <returns>The value assosiated with the specified key.</returns>
         public IBElement this[string key]
         {
-            get
-            {
-                return this[new BString(key)];
-            }
-            set
-            {
-                this[new BString(key)] = value;
-            }
+            get => this[new BString(key)];
+            set => this[new BString(key)] = value;
         }
     }
 

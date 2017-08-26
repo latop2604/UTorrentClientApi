@@ -16,34 +16,18 @@ namespace UTorrent.Api.File
         }
         public long Length { get; set; }
 
-        private readonly IList<string> _path = new List<String>();
-        public IList<string> Path
-        {
-            get { return _path; }
-        }
+        public IList<string> Path { get; } = new List<String>();
 
-        private readonly IList<long> _duration = new List<long>();
-        public IList<long> Duration
-        {
-            get { return _duration; }
-        }
+        public IList<long> Duration { get; } = new List<long>();
 
-        private readonly IList<long> _media = new List<long>();
-        public IList<long> Media
-        {
-            get { return _media; }
-        }
+        public IList<long> Media { get; } = new List<long>();
 
-        private readonly IList<TorrentFileProfileCollection> _profiles = new List<TorrentFileProfileCollection>();
-        public IList<TorrentFileProfileCollection> Profiles
-        {
-            get { return _profiles; }
-        }
+        public IList<TorrentFileProfileCollection> Profiles { get; } = new List<TorrentFileProfileCollection>();
 
         public static TorrentFileInfo Parse(BDictionary dictionary)
         {
             if (dictionary == null)
-                throw new ArgumentNullException("dictionary");
+                throw new ArgumentNullException(nameof(dictionary));
 
             var file = new TorrentFileInfo();
 
@@ -62,8 +46,7 @@ namespace UTorrent.Api.File
                         }
                         break;
                     case "path":
-                        BList listItems = item.Value as BList;
-                        if (listItems != null)
+                        if (item.Value is BList listItems)
                         {
                             foreach (var listItem in listItems)
                             {

@@ -5,6 +5,7 @@ using UTorrent.Api.Data;
 
 namespace UTorrent.Api.UnitTest
 {
+    using System.IO;
     using System.Linq;
 
     [TestClass]
@@ -298,13 +299,27 @@ namespace UTorrent.Api.UnitTest
         }
 
         [TestMethod]
-        [DeploymentItem("dummy.torrent")]
         public void TestAddAndRemoveTorrent()
         {
             try
             {
+                var dummyFile =
+                    "ZDEwOmNyZWF0ZWQgYnkx" +
+                    "Mzp1VG9ycmVudC8zMzAw" +
+                    "MTM6Y3JlYXRpb24gZGF0" +
+                    "ZWkxMzc1NTU5MjcyZTg6" +
+                    "ZW5jb2Rpbmc1OlVURi04" +
+                    "NDppbmZvZDY6bGVuZ3Ro" +
+                    "aTVlNDpuYW1lOTpkdW1t" +
+                    "eS50eHQxMjpwaWVjZSBs" +
+                    "ZW5ndGhpMTYzODRlNjpw" +
+                    "aWVjZXMyMDqCnDgEQBsH" +
+                    "J/cPc9RBXhYkAMvlezc6" +
+                    "cHJpdmF0ZWkxZWVl";
+
+                var bytes = Convert.FromBase64String(dummyFile);
                 UTorrentClient client = new UTorrentClient("admin", "password");
-                using (System.IO.FileStream file = System.IO.File.OpenRead("dummy.torrent"))
+                using (var file = new MemoryStream(bytes))
                 {
                     var addResponse = client.PostTorrent(file);
                     Assert.IsNotNull(addResponse);

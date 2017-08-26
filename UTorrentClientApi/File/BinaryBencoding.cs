@@ -11,7 +11,7 @@
         public static IBElement[] Decode(string bencodedValue)
         {
             if (bencodedValue == null)
-                throw new ArgumentNullException("bencodedValue");
+                throw new ArgumentNullException(nameof(bencodedValue));
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -28,7 +28,7 @@
         public static IBElement[] Decode(Stream input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
 
             if (input.CanRead == false)
                 throw new InvalidOperationException("Input stream must be seekable");
@@ -40,7 +40,7 @@
         private static IBElement[] Decode(BinaryReader binaryReader)
         {
             if (binaryReader == null)
-                throw new ArgumentNullException("binaryReader");
+                throw new ArgumentNullException(nameof(binaryReader));
 
             try
             {

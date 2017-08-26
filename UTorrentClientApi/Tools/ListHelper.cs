@@ -27,7 +27,7 @@ namespace UTorrent.Api
         internal static void AddRangeIfNotNull<T>(this ICollection<T> collection, IEnumerable<T> source)
         {
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
 
             if (source == null)
                 return;

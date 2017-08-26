@@ -23,36 +23,17 @@ namespace UTorrent.Api
             }
             set
             {
-                _baseUrl = value == null ? null : value.ToString();
+                _baseUrl = value?.ToString();
             }
         }
 
-        private string _token;
-        protected string Token
-        {
-            get { return _token; }
-            set { _token = value; }
-        }
+        protected string Token { get; set; }
 
-        private UrlAction _urlAction = UrlAction.Default;
-        protected UrlAction UrlAction
-        {
-            get { return _urlAction; }
-            set { _urlAction = value; }
-        }
+        protected UrlAction UrlAction { get; set; } = UrlAction.Default;
 
-        private readonly IList<String> _torrentHash = new List<String>();
-        protected IList<String> TorrentHash
-        {
-            get { return _torrentHash; }
-        }
+        protected IList<String> TorrentHash { get; } = new List<String>();
 
-        private readonly Dictionary<string, string> _settings = new Dictionary<string, string>();
-        protected Dictionary<string, string> Settings
-        {
-            get { return _settings; }
-        }
-
+        protected Dictionary<string, string> Settings { get; } = new Dictionary<string, string>();
 
         #region Input
 
@@ -60,26 +41,11 @@ namespace UTorrent.Api
 
         #region Output
 
-        private bool _useCacheId = true;
-        protected bool UseCacheId
-        {
-            get { return _useCacheId; }
-            set { _useCacheId = value; }
-        }
+        protected bool UseCacheId { get; set; } = true;
 
-        private int _cacheId;
-        protected int CacheId
-        {
-            get { return _cacheId; }
-            set { _cacheId = value; }
-        }
+        protected int CacheId { get; set; }
 
-        private bool _hasTorrentList;
-        protected bool HasTorrentList
-        {
-            get { return _hasTorrentList; }
-            set { _hasTorrentList = value; }
-        }
+        protected bool HasTorrentList { get; set; }
 
         #endregion
 
@@ -91,7 +57,7 @@ namespace UTorrent.Api
         public BaseRequest<T> SetBaseUrl(Uri uri)
         {
             if (uri == null)
-                throw new ArgumentNullException("uri");
+                throw new ArgumentNullException(nameof(uri));
 
             BaseUrl = uri;
             return this;
@@ -100,12 +66,12 @@ namespace UTorrent.Api
         public BaseRequest<T> SetAction(UrlAction urlAction)
         {
             if (urlAction == null)
-                throw new ArgumentNullException("urlAction");
+                throw new ArgumentNullException(nameof(urlAction));
 
             if (!CheckAction(urlAction))
-                throw new InvalidOperationException("urlAction invalide for this request");
+                throw new InvalidOperationException(nameof(urlAction) + " invalide for this request");
 
-            _urlAction = urlAction;
+            this.UrlAction = urlAction;
             return this;
         }
 
@@ -114,18 +80,18 @@ namespace UTorrent.Api
             Contract.Requires(hash != null);
 
             if (string.IsNullOrWhiteSpace(hash))
-                throw new ArgumentNullException("hash");
+                throw new ArgumentNullException(nameof(hash));
 
             hash = hash.Trim().ToUpperInvariant();
-            if (!_torrentHash.Contains(hash))
-                _torrentHash.Add(hash);
+            if (!this.TorrentHash.Contains(hash))
+                this.TorrentHash.Add(hash);
             return this;
         }
 
         public BaseRequest<T> SetTorrentHash(IEnumerable<string> hashs)
         {
             if (hashs == null)
-                throw new ArgumentNullException("hashs");
+                throw new ArgumentNullException(nameof(hashs));
 
             foreach (string hash in hashs)
             {
@@ -133,8 +99,8 @@ namespace UTorrent.Api
                     throw new FormatException("Invalide hash format");
 
                 var temphash = hash.Trim();
-                if (!_torrentHash.Any(h => h.Equals(temphash, StringComparison.OrdinalIgnoreCase)))
-                    _torrentHash.Add(temphash);
+                if (!this.TorrentHash.Any(h => h.Equals(temphash, StringComparison.OrdinalIgnoreCase)))
+                    this.TorrentHash.Add(temphash);
             }
 
             return this;
@@ -145,10 +111,10 @@ namespace UTorrent.Api
             Contract.Requires(key != null);
             Contract.Requires(value != null);
 
-            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Invalid key", "key");
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Invalid key", nameof(key));
 
             key = key.Trim();
-            _settings[key] = value;
+            this.Settings[key] = value;
             return this;
         }
 
@@ -164,25 +130,25 @@ namespace UTorrent.Api
 
         public BaseRequest<T> IncludeTorrentList(bool value)
         {
-            _hasTorrentList = value;
+            this.HasTorrentList = value;
             return this;
         }
 
         public BaseRequest<T> SetCacheId(int cacheId)
         {
-            _cacheId = cacheId;
+            this.CacheId = cacheId;
             return this;
         }
 
         public BaseRequest<T> UnableCache()
         {
-            _useCacheId = true;
+            this.UseCacheId = true;
             return this;
         }
 
         public BaseRequest<T> DisableCache()
         {
-            _useCacheId = false;
+            this.UseCacheId = false;
             return this;
         }
 
@@ -194,7 +160,7 @@ namespace UTorrent.Api
 
         public Uri ToUrl()
         {
-            return ToUrl(_token);
+            return ToUrl(this.Token);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "Lower case required")]
@@ -211,23 +177,23 @@ namespace UTorrent.Api
             sb.Append(_baseUrl);
             sb.Append("?token=").Append(token);
 
-            if (_urlAction != UrlAction.Default)
-                sb.Append("&action=").Append(_urlAction.ActionValue.ToLowerInvariant());
+            if (this.UrlAction != UrlAction.Default)
+                sb.Append("&action=").Append(this.UrlAction.ActionValue.ToLowerInvariant());
 
-            foreach (string torrentHash in _torrentHash)
+            foreach (string torrentHash in this.TorrentHash)
                 sb.Append("&hash=").Append(torrentHash);
 
-            foreach (var setting in _settings)
+            foreach (var setting in this.Settings)
             {
                 sb.Append("&s=").Append(Uri.EscapeUriString(setting.Key));
                 sb.Append("&v=").Append(setting.Value);
             }
 
-            if (_hasTorrentList)
+            if (this.HasTorrentList)
                 sb.Append("&list=1");
 
-            if (_useCacheId)
-                sb.Append("&cid=").Append(_cacheId);
+            if (this.UseCacheId)
+                sb.Append("&cid=").Append(this.CacheId);
 
             ToUrl(sb);
 
@@ -257,7 +223,7 @@ namespace UTorrent.Api
             using (var response = wr.GetResponseAsync().Result)
 #endif
             using (var stream = response.GetResponseStream())
-            { 
+            {
                 if (stream == null)
                     throw new InvalidOperationException("Response stream is null");
 
@@ -267,7 +233,7 @@ namespace UTorrent.Api
                 var result = JsonParser.ParseJsonResult(jsonResult);
 
                 if (result != null && result.CacheId != 0)
-                    _cacheId = result.CacheId;
+                    this.CacheId = result.CacheId;
 
                 var ret = new T { Result = result };
                 OnProcessedRequest(ret);

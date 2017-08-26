@@ -15,39 +15,39 @@ namespace UTorrent.Api
         #region Default Instance
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Default           = new UrlAction();
+        public static readonly UrlAction Default = new UrlAction();
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Start             = new UrlAction("START");
+        public static readonly UrlAction Start = new UrlAction("START");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Stop              = new UrlAction("STOP");
+        public static readonly UrlAction Stop = new UrlAction("STOP");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Pause             = new UrlAction("PAUSE");
+        public static readonly UrlAction Pause = new UrlAction("PAUSE");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction ForceStart        = new UrlAction("FORCESTART");
+        public static readonly UrlAction ForceStart = new UrlAction("FORCESTART");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Unpause           = new UrlAction("UNPAUSE");
+        public static readonly UrlAction Unpause = new UrlAction("UNPAUSE");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Recheck           = new UrlAction("RECHECK");
+        public static readonly UrlAction Recheck = new UrlAction("RECHECK");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction Remove            = new UrlAction("REMOVE");
+        public static readonly UrlAction Remove = new UrlAction("REMOVE");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction RemoveData        = new UrlAction("REMOVEDATA");
+        public static readonly UrlAction RemoveData = new UrlAction("REMOVEDATA");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction RemoveDataTorrent = new UrlAction("REMOVEDATATORRENT");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction RemoveTorrent = new UrlAction("REMOVETORRENT");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction SetPriority       = new UrlAction("SETPRIO");
+        public static readonly UrlAction SetPriority = new UrlAction("SETPRIO");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction AddUrl            = new UrlAction("ADD-URL");
+        public static readonly UrlAction AddUrl = new UrlAction("ADD-URL");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction AddFile           = new UrlAction("ADD-FILE");
+        public static readonly UrlAction AddFile = new UrlAction("ADD-FILE");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction GetFiles          = new UrlAction("GETFILES");
+        public static readonly UrlAction GetFiles = new UrlAction("GETFILES");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction GetSettings       = new UrlAction("GETSETTINGS");
+        public static readonly UrlAction GetSettings = new UrlAction("GETSETTINGS");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
-        public static readonly UrlAction SetSetting        = new UrlAction("SETSETTING");
+        public static readonly UrlAction SetSetting = new UrlAction("SETSETTING");
         //public static readonly UrlAction SetProps        = new UrlAction( );
 
 
@@ -56,10 +56,7 @@ namespace UTorrent.Api
         #region Properties
 
         private readonly string _actionValue;
-        public string ActionValue
-        {
-            get { return _actionValue; }
-        }
+        public string ActionValue => _actionValue;
 
         #endregion
 
@@ -77,11 +74,11 @@ namespace UTorrent.Api
         public static UrlAction Create(string actionValue)
         {
             if (actionValue == null)
-                throw new ArgumentNullException("actionValue");
+                throw new ArgumentNullException(nameof(actionValue));
 
             actionValue = actionValue.Trim();
             if (actionValue.Length == 0)
-                throw new ArgumentException("actionValue is empty", "actionValue");
+                throw new ArgumentException("actionValue is empty", nameof(actionValue));
 
             actionValue = actionValue.ToUpperInvariant();
             return new UrlAction(actionValue);

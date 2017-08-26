@@ -11,7 +11,7 @@ namespace UTorrent.Api
         public static Result ParseJsonResult(string json)
         {
             if (json == null)
-                throw new ArgumentNullException("json");
+                throw new ArgumentNullException(nameof(json));
 
             JObject o = JObject.Parse(json);
             return ParseJsonResult(o);
@@ -20,7 +20,7 @@ namespace UTorrent.Api
         public static Result ParseJsonResult(JObject obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             Result result = new Result(obj);
             result.Build = ParseBase(obj, "build", j => j.Value<int>());
@@ -40,11 +40,11 @@ namespace UTorrent.Api
         private static T ParseBase<T>(JObject obj, string token, Func<JToken, T> parser)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             if (token == null)
-                throw new ArgumentNullException("token");
+                throw new ArgumentNullException(nameof(token));
             if (parser == null)
-                throw new ArgumentNullException("parser");
+                throw new ArgumentNullException(nameof(parser));
 
             var jsonToken = obj.SelectToken(token, false);
             if (jsonToken == null)
@@ -56,7 +56,7 @@ namespace UTorrent.Api
         public static UTorrentException ParseError(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             var error = obj.Value<string>();
 
@@ -69,7 +69,7 @@ namespace UTorrent.Api
         public static IDictionary<string, FileCollection> ParseFiles(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             var result = new Dictionary<string, FileCollection>();
 
@@ -89,10 +89,10 @@ namespace UTorrent.Api
                 foreach (var jfile in oValue)
                 {
                     Data.File file = new Data.File();
-                    file.Name = jfile[0] != null ? jfile[0].Value<string>() : null;
-                    file.Size = jfile[1] != null ? jfile[1].Value<long>() : 0;
-                    file.Downloaded = jfile[2] != null ? jfile[2].Value<long>() : 0;
-                    int priority = jfile[3] != null ? jfile[3].Value<int>() : 0;
+                    file.Name = jfile[0]?.Value<string>();
+                    file.Size = jfile[1]?.Value<long>() ?? 0;
+                    file.Downloaded = jfile[2]?.Value<long>() ?? 0;
+                    int priority = jfile[3]?.Value<int>() ?? 0;
                     if (priority <= 3 && priority >= 0)
                     {
                         file.Priority = (Priority)priority;
@@ -108,7 +108,7 @@ namespace UTorrent.Api
         public static IList<Torrent> ParseTorrents(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             var list = obj.Select(t => new Torrent
             {
@@ -141,7 +141,7 @@ namespace UTorrent.Api
         private static IList<string> ParseMessages(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             List<string> result = obj.Select(l => l.ToString()).ToList();
             return result;
@@ -150,7 +150,7 @@ namespace UTorrent.Api
         private static IList<RssFeed> ParseRssFeeds(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             List<RssFeed> result = obj.Select(l =>
             {
@@ -176,7 +176,7 @@ namespace UTorrent.Api
         private static IList<Label> ParseLabels(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             List<Label> result = obj.Select(l => new Label { Count = l[1].Value<int>(), Name = l[0].Value<string>() }).ToList();
             return result;
@@ -248,7 +248,7 @@ namespace UTorrent.Api
         public static IEnumerable<Setting> ParseSettings(JToken obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             foreach (var jToken in obj)
             {
@@ -260,8 +260,7 @@ namespace UTorrent.Api
                 switch (setting.Type)
                 {
                     case SettingType.Integer:
-                        int i;
-                        if (int.TryParse(value, out i))
+                        if (int.TryParse(value, out var i))
                         {
                             setting.Value = i;
                         }

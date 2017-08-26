@@ -43,13 +43,7 @@ namespace UTorrent.Api.Tools
         /// true if the stream supports reading; otherwise, false.
         /// 
         /// </returns>
-        public override bool CanRead
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool CanRead => true;
 
         /// <summary>
         /// When overridden in a derived class, gets a value indicating whether the current stream supports seeking.
@@ -62,13 +56,7 @@ namespace UTorrent.Api.Tools
         /// true if the stream supports seeking; otherwise, false.
         /// 
         /// </returns>
-        public override bool CanSeek
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool CanSeek => true;
 
         /// <summary>
         /// When overridden in a derived class, gets a value indicating whether the current stream supports writing.
@@ -81,13 +69,7 @@ namespace UTorrent.Api.Tools
         /// true if the stream supports writing; otherwise, false.
         /// 
         /// </returns>
-        public override bool CanWrite
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool CanWrite => true;
 
         /// <summary>
         /// When overridden in a derived class, gets the length in bytes of the stream.
@@ -123,14 +105,11 @@ namespace UTorrent.Api.Tools
         /// </value>
         public int ChunkSize
         {
-            get
-            {
-                return _chunkSize;
-            }
+            get => _chunkSize;
             set
             {
                 if (value <= 0 || value >= 85000)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 _chunkSize = value;
             }
         }
@@ -159,9 +138,9 @@ namespace UTorrent.Api.Tools
             {
                 CheckDisposed();
                 if (value < 0L)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 if (value > Length)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 _position = value;
             }
         }
@@ -258,13 +237,13 @@ namespace UTorrent.Api.Tools
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (buffer == null)
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             if (offset < 0)
-                throw new ArgumentOutOfRangeException("offset");
+                throw new ArgumentOutOfRangeException(nameof(offset));
             if (count < 0)
-                throw new ArgumentOutOfRangeException("count");
+                throw new ArgumentOutOfRangeException(nameof(count));
             if (buffer.Length - offset < count)
-                throw new ArgumentException(null, "count");
+                throw new ArgumentException(null, nameof(count));
             CheckDisposed();
             int index = (int)(_position / ChunkSize);
             if (index == _chunks.Count)
@@ -367,14 +346,14 @@ namespace UTorrent.Api.Tools
         {
             CheckDisposed();
             if (value < 0L)
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             if (value > Length)
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             long num1 = value / ChunkSize;
             if (value % this.ChunkSize != 0L)
                 ++num1;
             if (num1 > int.MaxValue)
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             if (num1 < this._chunks.Count)
             {
                 int num2 = (int)(_chunks.Count - num1);
@@ -421,13 +400,13 @@ namespace UTorrent.Api.Tools
         public override void Write(byte[] buffer, int offset, int count)
         {
             if (buffer == null)
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             if (offset < 0)
-                throw new ArgumentOutOfRangeException("offset");
+                throw new ArgumentOutOfRangeException(nameof(offset));
             if (count < 0)
-                throw new ArgumentOutOfRangeException("count");
+                throw new ArgumentOutOfRangeException(nameof(count));
             if (buffer.Length - offset < count)
-                throw new ArgumentException(null, "count");
+                throw new ArgumentException(null, nameof(count));
             CheckDisposed();
             int dstOffset = (int)(_position % ChunkSize);
             int index = (int)(_position / ChunkSize);
@@ -498,7 +477,7 @@ namespace UTorrent.Api.Tools
         public void WriteTo(Stream stream)
         {
             if (stream == null)
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             CheckDisposed();
             for (int index = 0; index < _chunks.Count; ++index)
             {
