@@ -24,11 +24,7 @@ namespace UTorrent.Api
         /// <summary>
         /// µTorrent result error
         /// </summary>
-        public UTorrentException Error
-        {
-            get { return (_result != null) ? _result.Error : null; }
-        }
-
+        public UTorrentException Error => _result?.Error;
 
         protected abstract void OnResultChange();
     }

@@ -35,13 +35,7 @@ namespace UTorrent.Api
             }
         }
 
-        protected Uri TokenUrl
-        {
-            get
-            {
-                return new Uri(BaseUrl + "token.html");
-            }
-        }
+        protected Uri TokenUrl => new Uri(BaseUrl + "token.html");
 
         /// <summary>
         /// If True, activate µTorrent client cache
@@ -96,7 +90,7 @@ namespace UTorrent.Api
             : this(logOn, password)
         {
             if (ipAddress == null)
-                throw new ArgumentNullException("ipAddress");
+                throw new ArgumentNullException(nameof(ipAddress));
             InitBaseUrl(ipAddress.ToString(), port);
         }
 
@@ -107,7 +101,7 @@ namespace UTorrent.Api
             : this(logOn, password)
         {
             if (ipEndPoint == null)
-                throw new ArgumentNullException("ipEndPoint");
+                throw new ArgumentNullException(nameof(ipEndPoint));
             InitBaseUrl(ipEndPoint.Address.ToString(), ipEndPoint.Port);
         }
 #endif
@@ -115,9 +109,9 @@ namespace UTorrent.Api
         private void InitBaseUrl(string ip, int port)
         {
             if (ip == null)
-                throw new ArgumentNullException("ip");
+                throw new ArgumentNullException(nameof(ip));
             if (port <= 0 || port >= 65536)
-                throw new ArgumentOutOfRangeException("port");
+                throw new ArgumentOutOfRangeException(nameof(port));
             BaseUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "http://{0}:{1}/gui/", ip, port);
         }
 
@@ -200,7 +194,7 @@ namespace UTorrent.Api
         public Response GetFiles(string hash)
         {
             if (hash == null)
-                throw new ArgumentNullException("hash");
+                throw new ArgumentNullException(nameof(hash));
 
             var request = new Request();
             request.SetAction(UrlAction.GetFiles);
@@ -219,11 +213,11 @@ namespace UTorrent.Api
         public Task<Response> GetFilesAsync(string hash)
         {
             if (hash == null)
-                throw new ArgumentNullException("hash");
+                throw new ArgumentNullException(nameof(hash));
             return Task.Factory.StartNew(() => GetFiles(hash));
         }
 
-#region Command
+        #region Command
 
         /// <summary>
         /// Start the torrent
@@ -561,9 +555,9 @@ namespace UTorrent.Api
         }
 
 
-#endregion
+        #endregion
 
-#region New Torrent
+        #region New Torrent
 
         /// <summary>
         /// Send torrent url to the µTorrent client
@@ -574,7 +568,7 @@ namespace UTorrent.Api
         public AddUrlResponse AddUrlTorrent(Uri uri, string path)
         {
             if (uri == null)
-                throw new ArgumentNullException("uri");
+                throw new ArgumentNullException(nameof(uri));
 
             var request = new AddUrlRequest();
             request.SetUri(uri);
@@ -691,9 +685,9 @@ namespace UTorrent.Api
             return result;
         }
 
-#endregion
+        #endregion
 
-#region Settings
+        #region Settings
 
         public Response GetSettings()
         {
@@ -742,15 +736,13 @@ namespace UTorrent.Api
             return ProcessRequest(request);
         }
 
-#endregion
+        #endregion
 
         private void GetToken()
         {
             var wr = (HttpWebRequest)WebRequest.Create(TokenUrl);
             wr.Method = "GET";
             wr.Credentials = new NetworkCredential(_logOn, _password);
-
-            string result;
 
             try
             {
@@ -760,6 +752,7 @@ namespace UTorrent.Api
                 using (var response = wr.GetResponseAsync().Result)
 #endif
                 {
+                    string result;
                     using (var stream = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {
                         result = stream.ReadToEnd();
@@ -798,8 +791,7 @@ namespace UTorrent.Api
             }
             catch (WebException ex)
             {
-                HttpWebResponse webResponse = ex.Response as HttpWebResponse;
-                if (webResponse != null)
+                if (ex.Response is HttpWebResponse webResponse)
                 {
                     if (webResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
@@ -830,7 +822,7 @@ namespace UTorrent.Api
         public TResponse ProcessRequest<TResponse>(BaseRequest<TResponse> request) where TResponse : BaseResponse, new()
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
             string token = Token;
             request.SetBaseUrl(new Uri(BaseUrl));
@@ -853,11 +845,11 @@ namespace UTorrent.Api
         public static Torrent ConsolidateTorrent(BaseResponse response, string hash)
         {
             if (response == null)
-                throw new ArgumentNullException("response");
+                throw new ArgumentNullException(nameof(response));
             if (response.Result == null)
-                throw new ArgumentNullException("response", "response.Result is null");
+                throw new ArgumentNullException(nameof(response), "response.Result is null");
             if (hash == null)
-                throw new ArgumentNullException("hash");
+                throw new ArgumentNullException(nameof(hash));
 
             if (response.Result.Torrents == null || response.Result.Torrents.Count == 0)
                 return null;

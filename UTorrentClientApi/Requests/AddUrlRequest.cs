@@ -14,13 +14,7 @@ namespace UTorrent.Api
         public Uri InputUrl { get; protected set; }
 
         private TorrentInfo _torrentInfo;
-        public TorrentInfo TorrentInfo
-        {
-            get
-            {
-                return _torrentInfo;
-            }
-        }
+        public TorrentInfo TorrentInfo => _torrentInfo;
 
         #endregion
 
@@ -29,7 +23,7 @@ namespace UTorrent.Api
         public AddUrlRequest SetUri(Uri uri)
         {
             if (uri == null)
-                throw new ArgumentNullException("uri");
+                throw new ArgumentNullException(nameof(uri));
 
             if (string.Equals(uri.Scheme, "magnet", StringComparison.OrdinalIgnoreCase))
             {
@@ -46,7 +40,7 @@ namespace UTorrent.Api
         protected override void ToUrl(StringBuilder sb)
         {
             if (sb == null)
-                throw new ArgumentNullException("sb");
+                throw new ArgumentNullException(nameof(sb));
 
             base.ToUrl(sb);
 
@@ -64,7 +58,7 @@ namespace UTorrent.Api
         protected override void OnProcessedRequest(AddUrlResponse result)
         {
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
 
             base.OnProcessedRequest(result);
         }
@@ -77,7 +71,7 @@ namespace UTorrent.Api
         protected override Data.Torrent FindAddedTorrent(AddUrlResponse result)
         {
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
 
             if (InputUrl != null && string.Equals(InputUrl.Scheme, "magnet", StringComparison.OrdinalIgnoreCase))
             {

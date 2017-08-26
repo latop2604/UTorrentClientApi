@@ -17,22 +17,13 @@ namespace UTorrent.Api
             get { return _inputStream; }
             protected set
             {
-                if (_inputStream != null)
-                {
-                    _inputStream.Dispose();
-                }
+                this._inputStream?.Dispose();
                 _inputStream = value;
             }
         }
 
         private TorrentInfo _torrentInfo;
-        public TorrentInfo TorrentInfo
-        {
-            get
-            {
-                return _torrentInfo;
-            }
-        }
+        public TorrentInfo TorrentInfo => _torrentInfo;
 
         #endregion
 
@@ -44,7 +35,7 @@ namespace UTorrent.Api
             Contract.Requires(inputStream.CanRead);
 
             if (inputStream == null)
-                throw new ArgumentNullException("inputStream");
+                throw new ArgumentNullException(nameof(inputStream));
             if (!inputStream.CanRead)
                 throw new ArgumentException("Argument inputStream must be readable");
 
@@ -80,7 +71,7 @@ namespace UTorrent.Api
         {
             if (wr == null)
             {
-                throw new ArgumentNullException("wr");
+                throw new ArgumentNullException(nameof(wr));
             }
 
             if (InputStream != null)
@@ -129,7 +120,7 @@ namespace UTorrent.Api
 #if !PORTABLE
                     System.IO.Stream rs = wr.GetRequestStream();
 #else
-                    System.IO.Stream rs = wr.GetRequestStreamAsync().Result;
+                    System.IO.Stream rs = wr.GetRequestStreamAsync().GetAwaiter().GetResult();
 #endif
                     if (rs != null)
                     {
@@ -151,7 +142,7 @@ namespace UTorrent.Api
         protected override void OnProcessedRequest(AddStreamResponse result)
         {
             if (result == null)
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
 
             base.OnProcessedRequest(result);
             result.AddedTorrentInfo = _torrentInfo;

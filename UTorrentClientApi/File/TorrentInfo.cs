@@ -24,18 +24,14 @@ namespace UTorrent.Api.File
         public string Pieces { get; set; }
         public long PieceLength { get; set; }
 
-        private readonly IList<TorrentFileInfo> _files = new List<TorrentFileInfo>();
-        public IList<TorrentFileInfo> Files
-        {
-            get { return _files; }
-        }
+        public IList<TorrentFileInfo> Files { get; } = new List<TorrentFileInfo>();
 
         public static TorrentInfo Parse(BDictionary dictionary)
         {
             Contract.Requires(dictionary != null);
 
             if (dictionary == null)
-                throw new ArgumentNullException("dictionary");
+                throw new ArgumentNullException(nameof(dictionary));
 
             var torrent = new TorrentInfo();
 
@@ -63,8 +59,7 @@ namespace UTorrent.Api.File
                 }
                 else if (item.Key.Value == "creation date")
                 {
-                    BInteger integer = item.Value as BInteger;
-                    if (integer != null)
+                    if (item.Value is BInteger integer)
                     {
                         torrent.CreationDate = new DateTime(1970, 1, 1).AddSeconds(integer.Value);
                     }
@@ -78,20 +73,16 @@ namespace UTorrent.Api.File
                 }
                 else if (item.Key.Value == "info")
                 {
-                    BDictionary dict = item.Value as BDictionary;
-                    if (dict != null)
+                    if (item.Value is BDictionary dict)
                     {
-                        ParseInfo(torrent, singleFile, ref isSingleFile, item.Value as BDictionary);
+                        ParseInfo(torrent, singleFile, ref isSingleFile, dict);
                     }
                 }
             }
 
             if (isSingleFile)
             {
-                if (singleFile.Path != null)
-                {
-                    singleFile.Path.Add(torrent.Name);
-                }
+                singleFile.Path?.Add(torrent.Name);
                 torrent.Files.Add(singleFile);
             }
 
@@ -141,13 +132,11 @@ namespace UTorrent.Api.File
                 }
                 else if (info.Key.Value == "files")
                 {
-                    BList files = info.Value as BList;
-                    if (files != null)
+                    if (info.Value is BList files)
                     {
                         foreach (var file in files)
                         {
-                            BDictionary dict = file as BDictionary;
-                            if (dict != null)
+                            if (file is BDictionary dict)
                             {
                                 torrent.Files.Add(TorrentFileInfo.Parse(dict));
                             }
@@ -157,8 +146,7 @@ namespace UTorrent.Api.File
                 else if (info.Key.Value == "file-duration")
                 {
                     isSingleFile = true;
-                    BList items = info.Value as BList;
-                    if (items != null)
+                    if (info.Value is BList items)
                     {
                         foreach (var item in items)
                         {
@@ -173,8 +161,7 @@ namespace UTorrent.Api.File
                 else if (info.Key.Value == "file-media")
                 {
                     isSingleFile = true;
-                    BList items = info.Value as BList;
-                    if (items != null)
+                    if (info.Value is BList items)
                     {
                         foreach (var item in items)
                         {
@@ -190,13 +177,11 @@ namespace UTorrent.Api.File
                 {
                     isSingleFile = true;
 
-                    BList items = info.Value as BList;
-                    if (items != null)
+                    if (info.Value is BList items)
                     {
                         foreach (var item in items)
                         {
-                            BDictionary dictItems = item as BDictionary;
-                            if (dictItems != null)
+                            if (item is BDictionary dictItems)
                             {
                                 TorrentFileProfileCollection profiles = new TorrentFileProfileCollection();
                                 profiles.AddRange(dictItems.Select(dictItem => new TorrentFileProfile
@@ -218,14 +203,14 @@ namespace UTorrent.Api.File
             Contract.Requires(1 <= uri.Query.Length);
 
             if (uri == null)
-                throw new ArgumentNullException("uri");
+                throw new ArgumentNullException(nameof(uri));
 
             var torrent = new TorrentInfo();
 
             string queryString = uri.Query.Substring(1);
             var queryParams = ParseQueryString((queryString.Length > 0 && queryString[0] == '?') ? queryString.Substring(1) : queryString);
 
-            List <string> annouces = new List<string>();
+            List<string> annouces = new List<string>();
             foreach (string key in queryParams.Keys)
             {
                 if (key == "dn")
@@ -246,8 +231,7 @@ namespace UTorrent.Api.File
                 }
                 else if (key == "xl")
                 {
-                    long val;
-                    if (long.TryParse(queryParams[key], out val))
+                    if (long.TryParse(queryParams[key], out var val))
                     {
                         torrent.PieceLength = val;
                     }
@@ -262,7 +246,7 @@ namespace UTorrent.Api.File
         {
             var result = new Dictionary<string, string>();
 
-            int l = (s != null) ? s.Length : 0;
+            int l = s?.Length ?? 0;
             int i = 0;
 
             while (i < l)

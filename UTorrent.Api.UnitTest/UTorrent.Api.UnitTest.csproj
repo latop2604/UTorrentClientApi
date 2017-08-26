@@ -20,13 +20,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="dummy.torrent" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dummy.torrent" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UTorrentClientApi\UTorrentClientApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.1.8-rc" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.0.8-rc" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">

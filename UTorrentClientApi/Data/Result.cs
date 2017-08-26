@@ -6,67 +6,31 @@ namespace UTorrent.Api
 {
     public class Result
     {
-        private readonly JObject _source;
-        public JObject Source
-        {
-            get { return _source; }
-        }
+        public JObject Source { get; }
 
         public int Build { get; set; }
         public UTorrentException Error { get; set; }
         public int CacheId { get; set; }
 
-        private readonly IList<Label> _label = new List<Label>();
-        public IList<Label> Label
-        {
-            get { return _label; }
-        }
+        public IList<Label> Label { get; } = new List<Label>();
 
-        private readonly IList<string> _messages = new List<string>();
-        public IList<string> Messages
-        {
-            get { return _messages; }
-        }
+        public IList<string> Messages { get; } = new List<string>();
 
-        private readonly IList<Torrent> _torrents = new List<Torrent>();
-        public IList<Torrent> Torrents
-        {
-            get { return _torrents; }
-        }
+        public IList<Torrent> Torrents { get; } = new List<Torrent>();
 
-        private readonly IList<Torrent> _changedTorrents = new List<Torrent>();
-        public IList<Torrent> ChangedTorrents
-        {
-            get { return _changedTorrents; }
-        }
+        public IList<Torrent> ChangedTorrents { get; } = new List<Torrent>();
 
-        private readonly IList<RssFeed> _rssFeeds = new List<RssFeed>();
-        public IList<RssFeed> RssFeeds
-        {
-            get { return _rssFeeds; }
-        }
+        public IList<RssFeed> RssFeeds { get; } = new List<RssFeed>();
 
-        private readonly IList<object> _rssFilters = new List<object>();
-        public IList<object> RssFilters
-        {
-            get { return _rssFilters; }
-        }
+        public IList<object> RssFilters { get; } = new List<object>();
 
-        private readonly IDictionary<string, FileCollection> _files = new Dictionary<string, FileCollection>();
-        public IDictionary<string, FileCollection> Files
-        {
-            get { return _files; }
-        }
+        public IDictionary<string, FileCollection> Files { get; } = new Dictionary<string, FileCollection>();
 
-        private readonly List<Setting> _settings = new List<Setting>();
-        public List<Setting> Settings
-        {
-            get { return _settings; }
-        }
+        public List<Setting> Settings { get; } = new List<Setting>();
 
         public Result(JObject source)
         {
-            _source = source;
+            this.Source = source;
         }
     }
 }

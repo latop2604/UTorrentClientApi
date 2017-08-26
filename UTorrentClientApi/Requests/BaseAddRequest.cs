@@ -31,7 +31,7 @@ namespace UTorrent.Api
         protected override void ToUrl(StringBuilder sb)
         {
             if (sb == null)
-                throw new ArgumentNullException("sb");
+                throw new ArgumentNullException(nameof(sb));
 
             if (TorrentPath != null)
 #if NET40
