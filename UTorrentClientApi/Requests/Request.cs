@@ -36,6 +36,8 @@ namespace UTorrent.Api
             yield return UrlAction.GetFiles;
             yield return UrlAction.GetSettings;
             yield return UrlAction.SetSetting;
+            yield return UrlAction.GetProps;
+            yield return UrlAction.SetProps;
         }
 
         protected override void ToUrl(StringBuilder sb)

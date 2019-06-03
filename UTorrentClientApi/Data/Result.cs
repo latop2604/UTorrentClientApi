@@ -28,6 +28,8 @@ namespace UTorrent.Api
 
         public List<Setting> Settings { get; } = new List<Setting>();
 
+        public List<Props> Props { get; } = new List<Props>();
+
         public Result(JObject source)
         {
             this.Source = source;

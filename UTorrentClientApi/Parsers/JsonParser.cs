@@ -33,6 +33,7 @@ namespace UTorrent.Api
             result.ChangedTorrents.AddRangeIfNotNull(ParseBase(obj, "torrentp", ParseTorrents));
             result.Files.AddRangeIfNotNull(ParseBase(obj, "files", ParseFiles));
             result.Settings.AddRangeIfNotNull(ParseBase(obj, "settings", ParseSettings));
+            result.Props.AddRangeIfNotNull(ParseBase(obj, "props", ParseProps));
 
             return result;
         }
@@ -145,6 +146,28 @@ namespace UTorrent.Api
 
             List<string> result = obj.Select(l => l.ToString()).ToList();
             return result;
+        }
+
+        private static IList<Props> ParseProps(JToken obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            var list = obj.Select(t => new Props
+            {
+                hash = t["hash"].Value<string>().ToUpperInvariant(),
+                trackers = t["trackers"].Value<string>(),
+                ulrate = t["ulrate"].Value<int>(),
+                dlrate = t["dlrate"].Value<int>(),
+                superseed = t["superseed"].Value<int>(),
+                dht = t["dht"].Value<int>(),
+                pex = t["pex"].Value<int>(),
+                seed_override = t["seed_override"].Value<int>(),
+                seed_ratio = t["seed_ratio"].Value<int>(),
+                seed_time = t["seed_time"].Value<int>(),
+                ulslots = t["ulslots"].Value<int>(),
+            }).ToList();
+
+            return list;
         }
 
         private static IList<RssFeed> ParseRssFeeds(JToken obj)
