@@ -11,7 +11,7 @@
     <PackageTags>µTorrent;uTorrent;Torrent</PackageTags>
     <PackageReleaseNotes>https://github.com/latop2604/UTorrentClientApi</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/latop2604/UTorrentClientApi</PackageProjectUrl>
-    <PackageLicenseUrl>https://utorrentclientapi.codeplex.com/license</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/latop2604/UTorrentClientApi</RepositoryUrl>
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
@@ -58,6 +58,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>
 
 </Project>
