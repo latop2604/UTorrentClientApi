@@ -154,17 +154,17 @@ namespace UTorrent.Api
                 throw new ArgumentNullException(nameof(obj));
             var list = obj.Select(t => new Props
             {
-                hash = t["hash"].Value<string>().ToUpperInvariant(),
-                trackers = t["trackers"].Value<string>(),
-                ulrate = t["ulrate"].Value<int>(),
-                dlrate = t["dlrate"].Value<int>(),
-                superseed = t["superseed"].Value<int>(),
-                dht = t["dht"].Value<int>(),
-                pex = t["pex"].Value<int>(),
-                seed_override = t["seed_override"].Value<int>(),
-                seed_ratio = t["seed_ratio"].Value<int>(),
-                seed_time = t["seed_time"].Value<int>(),
-                ulslots = t["ulslots"].Value<int>(),
+                Hash = t["hash"].Value<string>().ToUpperInvariant(),
+                Trackers = t["trackers"].Value<string>(),
+                UlRate = t["ulrate"].Value<int>(),
+                DlRate = t["dlrate"].Value<int>(),
+                Superseed = t["superseed"].Value<int>(),
+                DHT = t["dht"].Value<int>(),
+                PEX = t["pex"].Value<int>(),
+                Seed_Override = t["seed_override"].Value<int>(),
+                Seed_Ratio = t["seed_ratio"].Value<int>(),
+                Seed_Time = t["seed_time"].Value<int>(),
+                UlSlots = t["ulslots"].Value<int>(),
             }).ToList();
 
             return list;

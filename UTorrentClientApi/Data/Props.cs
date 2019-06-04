@@ -8,8 +8,8 @@ namespace UTorrent.Api.Data
         public int UlRate { get; set; }
         public int DlRate { get; set; }
         public int Superseed { get; set; }
-        public int Dht { get; set; }
-        public int Pex { get; set; }
+        public int DHT { get; set; }
+        public int PEX { get; set; }
         public int Seed_Override { get; set; }
         public int Seed_Ratio { get; set; }
         public int Seed_Time { get; set; }
