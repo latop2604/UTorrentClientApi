@@ -48,6 +48,10 @@ namespace UTorrent.Api
         public static readonly UrlAction GetSettings = new UrlAction("GETSETTINGS");
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
         public static readonly UrlAction SetSetting = new UrlAction("SETSETTING");
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
+        public static readonly UrlAction GetProps = new UrlAction("GETPROPS");
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "UrlAction is immutable")]
+        public static readonly UrlAction SetProps = new UrlAction("SETPROPS");
         //public static readonly UrlAction SetProps        = new UrlAction( );
 
 

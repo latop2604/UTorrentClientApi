@@ -112,7 +112,14 @@ namespace UTorrent.Api
                 throw new ArgumentNullException(nameof(ip));
             if (port <= 0 || port >= 65536)
                 throw new ArgumentOutOfRangeException(nameof(port));
-            BaseUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "http://{0}:{1}/gui/", ip, port);
+            if (!ip.StartsWith("http"))
+            {
+                BaseUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "http://{0}:{1}/gui/", ip, port);
+            }
+            else
+            {
+                BaseUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}/gui/", ip, port);
+            }
         }
 
         /// <summary>
@@ -169,6 +176,22 @@ namespace UTorrent.Api
             Contract.Requires(hash != null);
             var request = new Request();
             request.SetAction(UrlAction.GetFiles);
+            request.IncludeTorrentList(true);
+            request.SetTorrentHash(hash);
+
+            return ProcessRequest(request);
+        }
+
+        /// <summary>
+        /// Get all props from specific torrent
+        /// </summary>
+        /// <param name="hash">The torrent id</param>
+        /// <returns></returns>
+        public Response GetProps(string hash)
+        {
+            Contract.Requires(hash != null);
+            var request = new Request();
+            request.SetAction(UrlAction.GetProps);
             request.IncludeTorrentList(true);
             request.SetTorrentHash(hash);
 
