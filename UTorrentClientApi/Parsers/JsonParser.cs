@@ -161,9 +161,9 @@ namespace UTorrent.Api
                 Superseed = t["superseed"].Value<int>(),
                 DHT = t["dht"].Value<int>(),
                 PEX = t["pex"].Value<int>(),
-                Seed_Override = t["seed_override"].Value<int>(),
-                Seed_Ratio = t["seed_ratio"].Value<int>(),
-                Seed_Time = t["seed_time"].Value<int>(),
+                SeedOverride = t["seed_override"].Value<int>(),
+                SeedRatio = t["seed_ratio"].Value<int>(),
+                SeedTime = t["seed_time"].Value<int>(),
                 UlSlots = t["ulslots"].Value<int>(),
             }).ToList();
 
