@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>UTorrentClient Api is an extensible set of classes that use WebUI to manipulate µTorrent remotely.</Description>
     <AssemblyTitle>UTorrentClient Api</AssemblyTitle>
-    <VersionPrefix>1.1.1</VersionPrefix>
+    <VersionPrefix>1.1.2</VersionPrefix>
     <Authors>latop2604</Authors>
     <TargetFrameworks>netstandard1.3;net46;net45;net40</TargetFrameworks>
     <AssemblyName>UTorrentClientApi</AssemblyName>
