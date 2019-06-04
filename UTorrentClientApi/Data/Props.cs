@@ -3,16 +3,16 @@ namespace UTorrent.Api.Data
 {
    public class Props
     {
-        public string hash { get; set; }
-        public string trackers { get; set; }
-        public int ulrate { get; set; }
-        public int dlrate { get; set; }
-        public int superseed { get; set; }
-        public int dht { get; set; }
-        public int pex { get; set; }
-        public int seed_override { get; set; }
-        public int seed_ratio { get; set; }
-        public int seed_time { get; set; }
-        public int ulslots { get; set; }
+        public string Hash { get; set; }
+        public string Trackers { get; set; }
+        public int UlRate { get; set; }
+        public int DlRate { get; set; }
+        public int Superseed { get; set; }
+        public int Dht { get; set; }
+        public int Pex { get; set; }
+        public int Seed_Override { get; set; }
+        public int Seed_Ratio { get; set; }
+        public int Seed_Time { get; set; }
+        public int UlSlots { get; set; }
     }
 }
