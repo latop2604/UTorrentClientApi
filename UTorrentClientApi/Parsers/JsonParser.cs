@@ -155,13 +155,13 @@ namespace UTorrent.Api
             var list = obj.Select(t => new Props
             {
                 Hash = t["hash"].Value<string>().ToUpperInvariant(),
-                Trackers = t["trackers"].Value<string>(),
+                Trackers = (t["trackers"].Value<string>()??string.Empty).Split(new [] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries),
                 UlRate = t["ulrate"].Value<int>(),
                 DlRate = t["dlrate"].Value<int>(),
-                Superseed = t["superseed"].Value<int>(),
-                DHT = t["dht"].Value<int>(),
-                PEX = t["pex"].Value<int>(),
-                SeedOverride = t["seed_override"].Value<int>(),
+                Superseed = (PropsOption)t["superseed"].Value<int>(),
+                DHT = (PropsOption)t["dht"].Value<int>(),
+                PEX = (PropsOption)t["pex"].Value<int>(),
+                SeedOverride = (PropsOption)t["seed_override"].Value<int>(),
                 SeedRatio = t["seed_ratio"].Value<int>(),
                 SeedTime = t["seed_time"].Value<int>(),
                 UlSlots = t["ulslots"].Value<int>(),
