@@ -125,10 +125,21 @@ namespace UTorrent.Api
         /// <summary>
         /// Get all torrents from µTorrent client without file's details
         /// </summary>
+        /// <param name="fetchProps">Also get props for all torrents, default is false</param>
         /// <returns></returns>
-        public Response GetList()
+        public Response GetList(bool fetchProps = false)
         {
-            return GetList(_cacheId);
+            var response = GetList(_cacheId);
+            if (fetchProps == true)
+            {
+                response.Result.Props.Clear();
+                foreach (Torrent t in response.Result.Torrents)
+                {
+                    try { response.Result.Props.Add(GetProps(t.Hash)); }
+                    catch { }
+                }
+            }
+            return response;
         }
 
         /// <summary>
@@ -171,15 +182,19 @@ namespace UTorrent.Api
         /// </summary>
         /// <param name="hash">The torrent id</param>
         /// <returns></returns>
-        public Response GetTorrent(string hash)
+        public Torrent GetTorrent(string hash)
         {
             Contract.Requires(hash != null);
             var request = new Request();
             request.SetAction(UrlAction.GetFiles);
             request.IncludeTorrentList(true);
             request.SetTorrentHash(hash);
+            IList<Torrent> TempList = ProcessRequest(request).Result.Torrents;
 
-            return ProcessRequest(request);
+            if (TempList.Count > 0)
+                return (from v in TempList where v.Hash == hash select v).First();
+
+            throw new TorrentNotFoundException("Torrent with the hash " + hash + " was not found.");
         }
 
         /// <summary>
@@ -187,15 +202,19 @@ namespace UTorrent.Api
         /// </summary>
         /// <param name="hash">The torrent id</param>
         /// <returns></returns>
-        public Response GetProps(string hash)
+        public Props GetProps(string hash)
         {
             Contract.Requires(hash != null);
             var request = new Request();
             request.SetAction(UrlAction.GetProps);
             request.IncludeTorrentList(true);
             request.SetTorrentHash(hash);
+            List<Props> TempProps = ProcessRequest(request).Result.Props;
 
-            return ProcessRequest(request);
+            if (TempProps.Count > 0)
+                return (from v in TempProps where v.Hash == hash select v).First();
+
+            throw new TorrentNotFoundException("Torrent with the hash " + hash + " was not found.");
         }
 
         /// <summary>
@@ -203,7 +222,7 @@ namespace UTorrent.Api
         /// </summary>
         /// <param name="hash">The torrent id</param>
         /// <returns></returns>
-        public Task<Response> GetTorrentAsync(string hash)
+        public Task<Torrent> GetTorrentAsync(string hash)
         {
             return Task.Factory.StartNew(() => GetTorrent(hash));
         }

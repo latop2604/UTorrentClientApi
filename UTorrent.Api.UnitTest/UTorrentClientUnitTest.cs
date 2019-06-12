@@ -100,9 +100,6 @@ namespace UTorrent.Api.UnitTest
                 Assert.AreNotEqual(response.Result.Torrents.Count, 0);
 
                 var torrent = response.Result.Torrents[0];
-                response = client.GetTorrent(torrent.Hash.ToLower());
-                Assert.IsNull(response.Error);
-                Assert.IsNotNull(response.Result);
 
                 torrent = UTorrentClient.ConsolidateTorrent(response, torrent.Hash);
                 Assert.IsNotNull(torrent);
@@ -145,10 +142,11 @@ namespace UTorrent.Api.UnitTest
             Assert.AreNotEqual(response.Result.Torrents.Count, 0);
 
             var torrent = response.Result.Torrents[0];
-            task = client.GetTorrentAsync(torrent.Hash.ToLower());
+
+            Task<Torrent> task2 = client.GetTorrentAsync(torrent.Hash.ToLower());
             try
             {
-                task.Wait();
+                task2.Wait();
             }
             catch (AggregateException ex)
             {
@@ -159,7 +157,6 @@ namespace UTorrent.Api.UnitTest
                     ex.InnerExceptions[0].GetType() == typeof(InvalidCredentialException))
                     Assert.Inconclusive("Invalid credential");
             }
-            response = task.Result;
             Assert.IsNull(response.Error);
             Assert.IsNotNull(response.Result);
 
@@ -167,6 +164,10 @@ namespace UTorrent.Api.UnitTest
             Assert.IsNotNull(torrent);
             Assert.IsNotNull(torrent.Files);
             Assert.AreNotEqual(torrent.Files.Count, 0);
+
+            var result2 = task2.Result;
+            Assert.IsNotNull(result2);
+            Assert.IsNotNull(result2.Hash);
         }
 
         [TestMethod]
